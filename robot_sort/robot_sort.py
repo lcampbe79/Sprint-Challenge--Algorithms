@@ -96,8 +96,30 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        #sets the light on to start sorting, will turn off when the list is sorted
+        self.set_light_on()
+        ## move to the first item
+        self.swap_item()
+        ## loop as long as the light is on, we'll turn if off when we can't move right after the break
+        while self.light_is_on():
+            ## if we are at the end of the list, done turn off light
+            if self.compare_item() == None and self.can_move_right() == False:
+                self.swap_item()#is the last sorted item 
+                self.set_light_off()#turns off the light when sorting is done
+                break
+            ## keep moving right, if the item is lower, swap with it.
+            ## this will end up with the lowest item in this position
+            while self.move_right():
+                if self.compare_item() == 1:
+                    self.swap_item()
+            ## now back left
+            while self.move_left():
+                # if nothing, swap and move right/looks to see if there are missing numbers and replaces them
+                if self.compare_item() == None:
+                    self.swap_item()
+                    self.move_right()
+                    self.swap_item()
+                    break
 
 
 if __name__ == "__main__":
